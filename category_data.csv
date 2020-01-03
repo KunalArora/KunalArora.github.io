@@ -1,0 +1,19 @@
+drug,category,fraction
+Alcohol,crime,0.231
+Alcohol,mental health,0.571
+Alcohol,unemployment,0.197
+Marijuana,crime,0.348
+Marijuana,mental health,0.401
+Marijuana,unemployment,0.251
+Cocaine,crime,0.437
+Cocaine,mental health,0.418
+Cocaine,unemployment,0.146
+Heroin,crime,0.442
+Heroin,mental health,0.341
+Heroin,unemployment,0.217
+Hallucinogen,crime,0.429
+Hallucinogen,mental health,0.314
+Hallucinogen,unemployment,0.257
+Methamphetamine,crime,0.45
+Methamphetamine,mental health,0.361
+Methamphetamine,unemployment,0.189
