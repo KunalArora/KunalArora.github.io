@@ -1,10 +1,15 @@
 let data;
+
+let canvasWidth = 1500;
+let canvasHeight = 750;
 let scaling = 8;
 let rectWidth = 100;
 let rectHeight = 150;
-let circleArray = [100, 230, 350, 470, 600];
-let drugArray = [75,210,330,430,550];
-let rectArray = [50,180,300,420,550];
+
+let circleArray = [100+400, 230+400, 350+400, 470+400, 600+400];
+let drugArray = [75+400,210+400,330+400,430+400,550+400];
+let rectArray = [50+400,180+400,300+400,420+400,550+400];
+
 let colorArray = ['orange','white','green'];
 let rArray = [];
 let drugArrays = [];
@@ -13,8 +18,9 @@ let state = -1;
 let colorAge = ['purple', 'yellow', 'red', 'blue']
 let fileNames = ['marijuana_category.csv', 'cocaine_category.csv', 'heroin_category.csv', 'hallucinogen_category.csv', 'methamphetamine_category.csv']
 let drugData = []
-let graphVal = [100, 300, 400, 50]
-
+let graphVal = [200+400, 340, 400, 50]
+let categoryArray = ['Crime', 'Mental Health', 'Unemployment']
+let ageArray = ['18-25 years', '26-34 years','35-49 years', '50+ years']
 function preload() {
   data = loadTable('data/real_data.csv','csv','header')
   category_data = loadTable('data/real_categorydata.csv','csv','header')
@@ -26,8 +32,9 @@ function preload() {
 
 
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(canvasWidth, canvasHeight);
   textSize(14);
+  frameRate(60);
 
   for(let drug=0;drug<=4;drug++) {
       drugArrays[drug] = [];
@@ -44,21 +51,25 @@ function draw() {
   background(200);
 
   for(i=0; i<5;i++){
-    fill(255);
-    text(data.get(i+1,'drug'),drugArray[i],274);
+    //write drug name below
+    fill(0);
+    text(data.get(i+1,'drug'),drugArray[i],280);
 
+    // outer circle
     let c1 = color('magenta');
     fill(c1);
     t = log(data.get(i+1,'total_users')) *scaling;
+    rArray[i] = t;
     circle(circleArray[i],70,t);
 
+    // inner circle
     let c2 = color('white');
     fill(c2);
     r = log(data.get(i+1,'addicted_users')) *scaling;
-    rArray[i] = r;
     circle(circleArray[i],70,r);
 
-    rect(rectArray[i],110,rectWidth,rectHeight);
+    // draw rectangles
+    // rect(rectArray[i],110,rectWidth,rectHeight);
     let offset = 0;
     for(let k=0;k<3;k++) {
       let k1 = color(colorArray[k]);
@@ -72,27 +83,48 @@ function draw() {
   // This is for tooltip
   for(let j=0; j<5;j++){
     fill(255)
-    if(((mouseX-circleArray[j])**2) +
-       ((mouseY-70)**2) <= rArray[j]**2) {
-      rectDiv = createDiv(rect(circleArray[j] + 30,20,70,70));
+    if((mouseX-circleArray[j])**2 +
+       (mouseY-70)**2 <= (rArray[j]/2)**2) {
+      rectDiv = createDiv(rect(circleArray[j] + 0.6*rArray[j] ,20,70,70));
     }
   }
 
+  // fill the below rectangles
   if(state>=0){
     for(let cat=0;cat<=2;cat++) {
       let x = graphVal[0];
+      let y = graphVal[1] + cat * 60
+      fill(0);
+      text(categoryArray[cat], x-150, y+graphVal[3]/2)
       for(let age=0;age<=3;age++) {
         let agecolor = color(colorAge[age]);
         fill(agecolor)
 
         // x += 0.25 * graphVal[2];
-        let y = graphVal[1] + cat * 60
+        
         let width = graphVal[2]*drugArrays[state][cat][age]
         rect(x,y,width,graphVal[3])
         x+=width
       }
     }
+    
+    //draw legend for bottom rectangles
+    for (index = 0; index < colorAge.length; index++) { 
+      fill(colorAge[index]);
+      rect(rectArray[rectArray.length-1]+200, 330+50*index, 100, 30);
+      fill(1);
+      text(ageArray[index], rectArray[rectArray.length-1]+320, 350+50*index)
+    }    
   }
+  
+  //draw legend for top rectangles
+  for (index = 0; index < colorArray.length; index++) { 
+    fill(colorArray[index]);
+    rect(rectArray[rectArray.length-1]+200, 130+50*index, 100, 30);
+    fill(1);
+    text(categoryArray[index], rectArray[rectArray.length-1]+320, 150+50*index)
+  }
+  
 }
 
 function mouseClicked() {
