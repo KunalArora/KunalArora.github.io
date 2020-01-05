@@ -10,7 +10,9 @@ let circleArray = [100+400, 230+400, 350+400, 470+400, 600+400];
 let drugArray = [75+400,210+400,330+400,430+400,550+400];
 let rectArray = [50+400,180+400,300+400,420+400,550+400];
 
-let colorArray = ['orange','white','green'];
+//let colorArray = ['orange','white','green'];
+let colorArray = ['rgba(255, 0, 0, 1)', 'rgba(0, 255, 0, 1)','rgba(0, 0, 255, 1)']
+let offcolorArray = ['rgba(255, 0, 0, 0.25)', 'rgba(0, 255, 0, 0.25)','rgba(0, 0, 255, 0.25)']
 let rArray = [];
 let drugArrays = [];
 let offset = 0;
@@ -35,6 +37,7 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   textSize(14);
   frameRate(60);
+  noStroke();
 
   for(let drug=0;drug<=4;drug++) {
       drugArrays[drug] = [];
@@ -68,12 +71,15 @@ function draw() {
     r = log(data.get(i+1,'addicted_users')) *scaling;
     circle(circleArray[i],70,r);
 
-    // draw rectangles
-    // rect(rectArray[i],110,rectWidth,rectHeight);
+    // draw rectangle
     let offset = 0;
     for(let k=0;k<3;k++) {
       let k1 = color(colorArray[k]);
-      fill(k1)
+      if(state>=0 && i!=state){
+        k1 = color(offcolorArray[k]);
+      }
+      fill(k1);
+
       let height = category_data.get(i,k+1) * rectHeight
       rect(rectArray[i],110+offset, rectWidth, height);
       offset += height;
