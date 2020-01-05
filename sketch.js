@@ -9,18 +9,18 @@ let colorArray = ['orange','white','green'];
 let rArray = [];
 let drugArrays = [];
 let offset = 0;
-let state = -1; 
+let state = -1;
 let colorAge = ['purple', 'yellow', 'red', 'blue']
 let fileNames = ['marijuana_category.csv', 'cocaine_category.csv', 'heroin_category.csv', 'hallucinogen_category.csv', 'methamphetamine_category.csv']
 let drugData = []
 let graphVal = [100, 300, 400, 50]
 
 function preload() {
-  data = loadTable('real_data.csv','csv','header')
-  category_data = loadTable('real_categorydata.csv','csv','header')
-  
+  data = loadTable('data/real_data.csv','csv','header')
+  category_data = loadTable('data/real_categorydata.csv','csv','header')
+
   for(let drug=0;  drug<=4;drug++){
-    drugData[drug] = loadTable(fileNames[drug], 'csv', 'header')
+    drugData[drug] = loadTable('data/'+fileNames[drug], 'csv', 'header')
   }
 }
 
@@ -28,12 +28,7 @@ function preload() {
 function setup() {
   createCanvas(1000, 1000);
   textSize(14);
-  
-  // for(let drug=0;drug<=2;drug++) {
-  //     drugArrays[drug] = [];
-  //     //for(let 
-  // }
-  
+
   for(let drug=0;drug<=4;drug++) {
       drugArrays[drug] = [];
       for(let cat=0;cat<=2;cat++){
@@ -47,22 +42,22 @@ function setup() {
 
 function draw() {
   background(200);
-  
+
   for(i=0; i<5;i++){
     fill(255);
     text(data.get(i+1,'drug'),drugArray[i],274);
-    
+
     let c1 = color('magenta');
     fill(c1);
     t = log(data.get(i+1,'total_users')) *scaling;
     circle(circleArray[i],70,t);
-    
+
     let c2 = color('white');
     fill(c2);
     r = log(data.get(i+1,'addicted_users')) *scaling;
     rArray[i] = r;
     circle(circleArray[i],70,r);
-    
+
     rect(rectArray[i],110,rectWidth,rectHeight);
     let offset = 0;
     for(let k=0;k<3;k++) {
@@ -77,19 +72,19 @@ function draw() {
   // This is for tooltip
   for(let j=0; j<5;j++){
     fill(255)
-    if(((mouseX-circleArray[j])**2) + 
+    if(((mouseX-circleArray[j])**2) +
        ((mouseY-70)**2) <= rArray[j]**2) {
       rectDiv = createDiv(rect(circleArray[j] + 30,20,70,70));
-    } 
+    }
   }
-  
+
   if(state>=0){
     for(let cat=0;cat<=2;cat++) {
       let x = graphVal[0];
       for(let age=0;age<=3;age++) {
         let agecolor = color(colorAge[age]);
         fill(agecolor)
-  
+
         // x += 0.25 * graphVal[2];
         let y = graphVal[1] + cat * 60
         let width = graphVal[2]*drugArrays[state][cat][age]
@@ -101,14 +96,14 @@ function draw() {
 }
 
 function mouseClicked() {
-  
+
   let onBox = false;
   for(let i=0;i<=4;i++) {
-    if(mouseX > (rectArray[i]) && 
+    if(mouseX > (rectArray[i]) &&
        mouseX < (rectArray[i] + rectWidth) &&
        mouseY > (100) &&
-       mouseY < (100 + rectHeight)){ 
-    
+       mouseY < (100 + rectHeight)){
+
         state = i;
         cursor('grab');
         onBox = true;
