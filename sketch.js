@@ -1,7 +1,7 @@
 let data;
 let drug_name;
 
-let canvasWidth = 1400;
+let canvasWidth = 1450;
 let canvasHeight = 750;
 let scaling = 6;
 let rectWidth = 120;
