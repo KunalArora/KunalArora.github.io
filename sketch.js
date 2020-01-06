@@ -68,7 +68,7 @@ function draw() {
   line(0,90,1450,90)
 
 //  stroke(0)
-  
+
   text('Five most abused Illicit drugs in the US and the', 615, 130)
   text('proportionate affected users in different categories for each drug', 580, 150)
 
@@ -185,10 +185,10 @@ function draw() {
     fill(0)
     textSize(20);
     text(drug_name + ' addiction statistics on specific population age demographies', 410, 500)
-    
+
     textSize(17);
     text('Age Group', 1220, 510)
-    
+
     textSize(14);
 
     for(let cat=0;cat<=2;cat++) {
@@ -224,7 +224,7 @@ function draw() {
   for (index = 0; index < colorArray.length; index++) {
     stroke(colorArray[index]);
     strokeWeight(4);
-    //drawingContext.setLineDash([10, 5]);    
+    //drawingContext.setLineDash([10, 5]);
     line(1180, toplegend[index], 1250, toplegend[index]);
     //drawingContext.setLineDash([]);
     // rect(rectArray[rectArray.length-1]+200, 250+50*index, 100, 30);
@@ -246,10 +246,12 @@ function draw() {
 
     stroke(1);
     fill(1);
+    textSize(11);
     line(circleArray[circleArray.length-1]+180, 170, circleArray[circleArray.length-1]+220, 150);
     text('Area of Outer Circle represents the \nnumber of Drug Users on Log Scale', circleArray[circleArray.length-1]+225, 155);
     line(circleArray[circleArray.length-1]+180, 195, circleArray[circleArray.length-1]+220, 210);
     text('Area of Inner Circle represents the \nfraction of all drug users who are addicted', circleArray[circleArray.length-1]+225, 220);
+    textSize(14);
 }
 
 function mouseClicked() {
