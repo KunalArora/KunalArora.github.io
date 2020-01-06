@@ -63,15 +63,17 @@ function draw() {
 
   textSize(50)
   text('Drug Addiction Statistics in the US for 2017', 200, 70)
-  textSize(12.5);
+  textSize(15);
   stroke(180)
   line(0,90,1450,90)
 
 //  stroke(0)
+  
   text('Five most abused Illicit drugs in the US and the', 615, 130)
   text('proportionate affected users in different categories for each drug', 580, 150)
 
   textFont('fantasy');
+  textSize(12);
   text('* According to the National Survey on Drug Use and Health', 40, 250)
   text('(NSDUH), 19.7 million American adults (aged 18 and older)', 50, 270)
   text('battled a substance use disorder in 2017.', 50, 290)
@@ -135,6 +137,7 @@ function draw() {
     }
   }
 
+  let mouseOnBox = false;
   // This is for tooltip
   for(let j=0; j<5;j++){
 
@@ -144,6 +147,7 @@ function draw() {
 
     if((mouseX-circleArray[j])**2 +
        (mouseY-190)**2 <= (rArray[j]/2)**2) {
+      mouseOnBox = true;
       fill(255);
       if(j==4){
         fill(255);
@@ -165,6 +169,12 @@ function draw() {
       //rectDiv = rect(circleArray[j] + 0.6*rArray[j] ,110,130,90);
     }
   }
+  // if(mouseOnBox){
+  //     cursor('grab');
+  // }
+  // else{
+  //   cursor(ARROW);
+  // }
 
   // fill the below rectangles
   if(state>=0){
@@ -175,6 +185,10 @@ function draw() {
     fill(0)
     textSize(20);
     text(drug_name + ' addiction statistics on specific population age demographies', 410, 500)
+    
+    textSize(17);
+    text('Age Group', 1220, 510)
+    
     textSize(14);
 
     for(let cat=0;cat<=2;cat++) {
@@ -209,10 +223,12 @@ function draw() {
   //draw legend for top rectangles
   for (index = 0; index < colorArray.length; index++) {
     stroke(colorArray[index]);
-    drawingContext.setLineDash([10, 5]);
+    strokeWeight(4);
+    //drawingContext.setLineDash([10, 5]);    
     line(1180, toplegend[index], 1250, toplegend[index]);
-    drawingContext.setLineDash([]);
+    //drawingContext.setLineDash([]);
     // rect(rectArray[rectArray.length-1]+200, 250+50*index, 100, 30);
+    strokeWeight(1);
     stroke(0)
     fill(1);
     text(categoryArray[index], rectArray[rectArray.length-1]+320, 270+50*index)
@@ -230,10 +246,10 @@ function draw() {
 
     stroke(1);
     fill(1);
-    line(circleArray[circleArray.length-1]+180, 170, circleArray[circleArray.length-1]+220, 170);
-    text('Number of drug users', circleArray[circleArray.length-1]+225, 175);
-    line(circleArray[circleArray.length-1]+180, 195, circleArray[circleArray.length-1]+220, 195);
-    text('Number of drug addicts', circleArray[circleArray.length-1]+225, 200);
+    line(circleArray[circleArray.length-1]+180, 170, circleArray[circleArray.length-1]+220, 150);
+    text('Area of Outer Circle represents the \nnumber of Drug Users on Log Scale', circleArray[circleArray.length-1]+225, 155);
+    line(circleArray[circleArray.length-1]+180, 195, circleArray[circleArray.length-1]+220, 210);
+    text('Area of Inner Circle represents the \nfraction of all drug users who are addicted', circleArray[circleArray.length-1]+225, 220);
 }
 
 function mouseClicked() {
@@ -246,7 +262,7 @@ function mouseClicked() {
        mouseY < (220 + rectHeight)){
 
         state = i;
-        cursor('grab');
+        //cursor('grab');
         onBox = true;
         drug_name = data.get(i+1, 'drug')
         break;
@@ -254,7 +270,7 @@ function mouseClicked() {
    }
   if(!onBox){
     state = -1;
-    cursor(ARROW)
+    //cursor(ARROW)
     drug_name= ''
   }
 }
