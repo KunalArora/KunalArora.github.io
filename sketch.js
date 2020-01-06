@@ -1,14 +1,16 @@
 let data;
+let drug_name;
 
 let canvasWidth = 1500;
 let canvasHeight = 750;
-let scaling = 13;
+let scaling = 6;
 let rectWidth = 100;
 let rectHeight = 150;
 
 let circleArray = [100+400, 230+400, 350+400, 470+400, 600+400];
 let drugArray = [75+400,210+400,330+400,430+400,550+400];
 let rectArray = [50+400,180+400,300+400,420+400,550+400];
+let toplegend = [265, 315, 365]
 
 //let colorArray = ['orange','white','green'];
 // let colorArray = ['rgba(255, 0, 0, 1)', 'rgba(0, 255, 0, 1)','rgba(0, 0, 255, 1)']
@@ -22,7 +24,7 @@ let state = -1;
 let colorAge = ['purple', 'yellow', 'red', 'blue']
 let fileNames = ['marijuana_category.csv', 'cocaine_category.csv', 'heroin_category.csv', 'hallucinogen_category.csv', 'methamphetamine_category.csv']
 let drugData = []
-let graphVal = [200+400, 340+120, 400, 50]
+let graphVal = [200+400, 400+150, 400, 50]
 let categoryArray = ['Crime', 'Mental Health', 'Unemployment']
 let ageArray = ['18-25 years', '26-34 years','35-49 years', '50+ years']
 
@@ -42,6 +44,7 @@ function setup() {
   frameRate(60);
 
 
+
   for(let drug=0;drug<=4;drug++) {
       drugArrays[drug] = [];
       for(let cat=0;cat<=2;cat++){
@@ -55,22 +58,27 @@ function setup() {
 
 function draw() {
   background(200);
-  noStroke();
+  // noStroke();
+
+  textSize(50)
+  text('Drug Addiction Statistics in the US for 2017', 430, 70)
+  textSize(14);
 
   for(i=0; i<5;i++){
 
+    let drug = data.get(i+1, 'drug')
     let drug_users = data.get(i+1,'total_users')
     let drug_addicts = data.get(i+1,'addicted_users')
     let addicted_to_total = round((drug_addicts/drug_users) * 100)
 
     //write drug name below
     fill(0);
-    text(data.get(i+1,'drug'),drugArray[i],400);
+    text(drug,drugArray[i],400);
 
     // outer circle
     let c1 = color('#008000');
     fill(c1);
-    t = log(drug_users) *scaling;
+    t = (log(drug_users)) * scaling;
     rArray[i] = t;
     circle(circleArray[i],190,t);
 
@@ -123,6 +131,14 @@ function draw() {
 
   // fill the below rectangles
   if(state>=0){
+    drawingContext.setLineDash([10, 25])
+    line(390,450,1400,450)
+    drawingContext.setLineDash([])
+
+    textSize(20);
+    text(drug_name + ' addiction statistics on specific population demographies', 450, 500)
+    textSize(14);
+
     for(let cat=0;cat<=2;cat++) {
       let x = graphVal[0];
       let y = graphVal[1] + cat * 60
@@ -146,16 +162,20 @@ function draw() {
     //draw legend for bottom rectangles
     for (index = 0; index < colorAge.length; index++) {
       fill(colorAge[index]);
-      rect(rectArray[rectArray.length-1]+200, 450+50*index, 100, 30);
+      rect(rectArray[rectArray.length-1]+200, 550+50*index, 100, 30);
       fill(1);
-      text(ageArray[index], rectArray[rectArray.length-1]+320, 470+50*index)
+      text(ageArray[index], rectArray[rectArray.length-1]+320, 568+50*index)
     }
   }
 
   //draw legend for top rectangles
   for (index = 0; index < colorArray.length; index++) {
-    fill(colorArray[index]);
-    rect(rectArray[rectArray.length-1]+200, 250+50*index, 100, 30);
+    stroke(colorArray[index]);
+    drawingContext.setLineDash([10, 5]);
+    line(1180, toplegend[index], 1250, toplegend[index]);
+    drawingContext.setLineDash([]);
+    // rect(rectArray[rectArray.length-1]+200, 250+50*index, 100, 30);
+    stroke(0)
     fill(1);
     text(categoryArray[index], rectArray[rectArray.length-1]+320, 270+50*index)
   }
@@ -190,11 +210,13 @@ function mouseClicked() {
         state = i;
         cursor('grab');
         onBox = true;
+        drug_name = data.get(i+1, 'drug')
         break;
      }
    }
   if(!onBox){
     state = -1;
     cursor(ARROW)
+    drug_name= ''
   }
 }
