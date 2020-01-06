@@ -5,6 +5,10 @@ discussion in the last class with the professor. Also, we both developed differe
 to discuss later with one another.
 
 Amritansh
+My initial idea was to plot the addiction rate of different drugs along with their co-occurence with different socio-demographic variables like criminal activity, mental health and unemployment as well as the number of overall users of each drug in the same plot. This idea was modified based on the feedback provided for the website design in this submission. 
+
+For the visualisations implemented, I suggested and implemented the two circles for each drug with areas representing proportionally the number of drug users and drug addicts respectively. Further, I implemented the logic translating the data from csv to rectangles with specific location, height and width on the p5 canvas in order to create the basic plots. I also refactored the code to make it easy to extend the design to more number of drugs and categories easily. 
+
 
 Kunal
 My initial idea was to show a US map so, a user can see and interact for drug addiction data on a state level. Also, to show
