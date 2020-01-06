@@ -65,7 +65,7 @@ function draw() {
   text('Drug Addiction Statistics in the US for 2017', 200, 70)
   textSize(12.5);
   stroke(180)
-  line(0,90,1400,90)
+  line(0,90,1450,90)
 
 //  stroke(0)
   text('Five most abused Illicit drugs in the US and the', 615, 130)
