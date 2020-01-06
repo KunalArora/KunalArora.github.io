@@ -77,7 +77,8 @@ function draw() {
     // inner circle
     let c2 = color('white');
     fill(c2);
-    r = addicted_to_total;
+    //r = addicted_to_total;
+    r = t*((drug_addicts/drug_users) **0.5);
     circle(circleArray[i],190,r);
 
     // draw rectangles
