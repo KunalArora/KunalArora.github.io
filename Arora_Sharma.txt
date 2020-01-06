@@ -1,0 +1,17 @@
+Contribution of team members to the visualization Assignment 8: Implementing the basic layout for your project
+
+Initially, both team members brainstorm about different visualization ideas based on the reviews from peer students and after
+discussion in the last class with the professor. Also, we both developed different individual sketches to be able
+to discuss later with one another.
+
+Amritansh
+
+Kunal
+My initial idea was to show a US map so, a user can see and interact for drug addiction data on a state level. Also, to show
+the data of different drug categories for different age groups to understand which age-group is most affected.
+
+For the created visualizations, I was responsible for designing the overall layout of the website like, the positioning of text,
+legends, deciding upon the bases of the size of different rectangles, circles etc.
+Also, majorly I implemented the interaction of the age demographic graph which is displayed once, a user clicks on one of the
+drug rectangular box. I also, decided upon the color scheme of the website and different color combinations displaced in the
+age-group distribution graph.
