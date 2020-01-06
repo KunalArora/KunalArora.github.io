@@ -1,15 +1,15 @@
 let data;
 let drug_name;
 
-let canvasWidth = 1500;
+let canvasWidth = 1400;
 let canvasHeight = 750;
 let scaling = 6;
-let rectWidth = 100;
+let rectWidth = 120;
 let rectHeight = 150;
 
-let circleArray = [100+400, 230+400, 350+400, 470+400, 600+400];
-let drugArray = [75+400,210+400,330+400,430+400,550+400];
-let rectArray = [50+400,180+400,300+400,420+400,550+400];
+let circleArray = [60+400, 195+400, 340+400, 480+400, 620+400];
+let drugArray = [30+400,175+400,315+400,445+400,563+400];
+let rectArray = [400,160+380,280+400,420+400,560+400];
 let toplegend = [265, 315, 365]
 
 //let colorArray = ['orange','white','green'];
@@ -21,7 +21,7 @@ let rArray = [];
 let drugArrays = [];
 let offset = 0;
 let state = -1;
-let colorAge = ['purple', 'yellow', 'red', 'blue']
+let colorAge = ['#00FF00', 'yellow', '#D2691E', '#7FFFD4']
 let fileNames = ['marijuana_category.csv', 'cocaine_category.csv', 'heroin_category.csv', 'hallucinogen_category.csv', 'methamphetamine_category.csv']
 let drugData = []
 let graphVal = [200+400, 400+150, 400, 50]
@@ -42,6 +42,7 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   textSize(14);
   frameRate(60);
+  textFont('serif');
 
 
 
@@ -57,13 +58,37 @@ function setup() {
 }
 
 function draw() {
-  background(200);
+  background('#FFFAFA');
   // noStroke();
 
   textSize(50)
-  text('Drug Addiction Statistics in the US for 2017', 430, 70)
-  textSize(14);
+  text('Drug Addiction Statistics in the US for 2017', 200, 70)
+  textSize(12.5);
+  stroke(180)
+  line(0,90,1400,90)
 
+//  stroke(0)
+  text('Five most abused Illicit drugs in the US and the', 615, 130)
+  text('proportionate affected users in different categories for each drug', 580, 150)
+
+  textFont('fantasy');
+  text('* According to the National Survey on Drug Use and Health', 40, 250)
+  text('(NSDUH), 19.7 million American adults (aged 18 and older)', 50, 270)
+  text('battled a substance use disorder in 2017.', 50, 290)
+
+  text('* About 38% of adults in 2017 battled an illicit drug use disorder.', 40, 320)
+
+  text('* Teenagers and people with mental health disorders are more', 40, 350)
+  text('at risk for drug use and addiction than other populations.', 50, 370)
+  textSize(11);
+
+  textFont('serif');
+
+  fill('red')
+  text('Note: Click on the above drug to see detailed age demographic statistics', 410, 430)
+
+  fill(0)
+  textSize(14);
   for(i=0; i<5;i++){
 
     let drug = data.get(i+1, 'drug')
@@ -120,12 +145,24 @@ function draw() {
     if((mouseX-circleArray[j])**2 +
        (mouseY-190)**2 <= (rArray[j]/2)**2) {
       fill(255);
-      rectDiv = createDiv(rect(circleArray[j] + 0.6*rArray[j] ,110,130,90));
-      fill(1);
-      text(('Drug: ' + data.get(j+1,'drug')), circleArray[j] + 0.6*rArray[j] + 5,125);
+      if(j==4){
+        fill(255);
+        rect(0.99*circleArray[j] ,93,160,90);
+        fill(1);
+        text(('Drug: ' + data.get(j+1,'drug')), circleArray[j]-5,110);
+      text(('# drug users: ' + drug_users), circleArray[j] - 5,130);
+      text(('# drug addicts: ' + drug_addicts), circleArray[j]-5,150);
+      text(('% of addicts: ' + addicted_to_total + '%'), circleArray[j]-5,170);
+      } else {
+        fill(255);
+        rect(circleArray[j] + 0.6*rArray[j] ,110,130,90);
+        fill(1);
+        text(('Drug: ' + data.get(j+1,'drug')), circleArray[j] + 0.6*rArray[j] + 5,125);
       text(('# drug users: ' + drug_users), circleArray[j] + 0.6*rArray[j] + 5,145);
       text(('# drug addicts: ' + drug_addicts), circleArray[j] + 0.6*rArray[j] + 5,165);
       text(('% of addicts: ' + addicted_to_total + '%'), circleArray[j] + 0.6*rArray[j] + 5,185);
+      }
+      //rectDiv = rect(circleArray[j] + 0.6*rArray[j] ,110,130,90);
     }
   }
 
@@ -135,8 +172,9 @@ function draw() {
     line(390,450,1400,450)
     drawingContext.setLineDash([])
 
+    fill(0)
     textSize(20);
-    text(drug_name + ' addiction statistics on specific population demographies', 450, 500)
+    text(drug_name + ' addiction statistics on specific population age demographies', 410, 500)
     textSize(14);
 
     for(let cat=0;cat<=2;cat++) {
@@ -162,7 +200,7 @@ function draw() {
     //draw legend for bottom rectangles
     for (index = 0; index < colorAge.length; index++) {
       fill(colorAge[index]);
-      rect(rectArray[rectArray.length-1]+200, 550+50*index, 100, 30);
+      rect(rectArray[rectArray.length-1]+250, 560+50*index, 60, 10);
       fill(1);
       text(ageArray[index], rectArray[rectArray.length-1]+320, 568+50*index)
     }
