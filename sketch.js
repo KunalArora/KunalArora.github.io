@@ -2,7 +2,7 @@ let data;
 
 let canvasWidth = 1500;
 let canvasHeight = 750;
-let scaling = 8;
+let scaling = 13;
 let rectWidth = 100;
 let rectHeight = 150;
 
@@ -11,7 +11,9 @@ let drugArray = [75+400,210+400,330+400,430+400,550+400];
 let rectArray = [50+400,180+400,300+400,420+400,550+400];
 
 //let colorArray = ['orange','white','green'];
-let colorArray = ['rgba(255, 0, 0, 1)', 'rgba(0, 255, 0, 1)','rgba(0, 0, 255, 1)']
+// let colorArray = ['rgba(255, 0, 0, 1)', 'rgba(0, 255, 0, 1)','rgba(0, 0, 255, 1)']
+
+let colorArray = ['#FFE4B5','#B0C4DE','#FFB6C1']
 
 let rArray = [];
 let drugArrays = [];
@@ -23,6 +25,7 @@ let drugData = []
 let graphVal = [200+400, 340+120, 400, 50]
 let categoryArray = ['Crime', 'Mental Health', 'Unemployment']
 let ageArray = ['18-25 years', '26-34 years','35-49 years', '50+ years']
+
 function preload() {
   data = loadTable('data/real_data.csv','csv','header')
   category_data = loadTable('data/real_categorydata.csv','csv','header')
@@ -37,7 +40,7 @@ function setup() {
   createCanvas(canvasWidth, canvasHeight);
   textSize(14);
   frameRate(60);
-  
+
 
   for(let drug=0;drug<=4;drug++) {
       drugArrays[drug] = [];
@@ -53,23 +56,28 @@ function setup() {
 function draw() {
   background(200);
   noStroke();
-  
+
   for(i=0; i<5;i++){
+
+    let drug_users = data.get(i+1,'total_users')
+    let drug_addicts = data.get(i+1,'addicted_users')
+    let addicted_to_total = round((drug_addicts/drug_users) * 100)
+
     //write drug name below
     fill(0);
     text(data.get(i+1,'drug'),drugArray[i],400);
 
     // outer circle
-    let c1 = color('magenta');
+    let c1 = color('#008000');
     fill(c1);
-    t = log(data.get(i+1,'total_users')) *scaling;
+    t = log(drug_users) *scaling;
     rArray[i] = t;
     circle(circleArray[i],190,t);
 
     // inner circle
     let c2 = color('white');
     fill(c2);
-    r = log(data.get(i+1,'addicted_users')) *scaling;
+    r = addicted_to_total;
     circle(circleArray[i],190,r);
 
     // draw rectangles
@@ -86,7 +94,7 @@ function draw() {
       let height = category_data.get(i,k+1) * rectHeight
 
       rect(rectArray[i],230+offset, rectWidth, height);
-      
+
       fill(k2);
       text(round(100*category_data.get(i,k+1))+'%', rectArray[i]+0.35*rectWidth, 230+offset + 0.67*height);
       offset += height;
@@ -95,15 +103,20 @@ function draw() {
 
   // This is for tooltip
   for(let j=0; j<5;j++){
-    
+
+    let drug_users = data.get(j+1,'total_users')
+    let drug_addicts = data.get(j+1,'addicted_users')
+    let addicted_to_total = round((drug_addicts/drug_users) * 100)
+
     if((mouseX-circleArray[j])**2 +
        (mouseY-190)**2 <= (rArray[j]/2)**2) {
       fill(255);
-      rectDiv = createDiv(rect(circleArray[j] + 0.6*rArray[j] ,110,70,70));
+      rectDiv = createDiv(rect(circleArray[j] + 0.6*rArray[j] ,110,130,90));
       fill(1);
-      text('alpha', circleArray[j] + 0.6*rArray[j] + 5,125);
-      text('beta', circleArray[j] + 0.6*rArray[j] + 5,145);
-      text('gamma', circleArray[j] + 0.6*rArray[j] + 5,165);
+      text(('Drug: ' + data.get(j+1,'drug')), circleArray[j] + 0.6*rArray[j] + 5,125);
+      text(('# drug users: ' + drug_users), circleArray[j] + 0.6*rArray[j] + 5,145);
+      text(('# drug addicts: ' + drug_addicts), circleArray[j] + 0.6*rArray[j] + 5,165);
+      text(('% of addicts: ' + addicted_to_total + '%'), circleArray[j] + 0.6*rArray[j] + 5,185);
     }
   }
 
@@ -119,8 +132,6 @@ function draw() {
         agecolor.setAlpha(200);
         fill(agecolor)
 
-        // x += 0.25 * graphVal[2];
-        
         let width = graphVal[2]*drugArrays[state][cat][age]
         rect(x,y,width,graphVal[3])
         if(drugArrays[state][cat][age]>0.05){
@@ -130,18 +141,18 @@ function draw() {
         x+=width
       }
     }
-    
+
     //draw legend for bottom rectangles
-    for (index = 0; index < colorAge.length; index++) { 
+    for (index = 0; index < colorAge.length; index++) {
       fill(colorAge[index]);
       rect(rectArray[rectArray.length-1]+200, 450+50*index, 100, 30);
       fill(1);
       text(ageArray[index], rectArray[rectArray.length-1]+320, 470+50*index)
-    }    
+    }
   }
-  
+
   //draw legend for top rectangles
-  for (index = 0; index < colorArray.length; index++) { 
+  for (index = 0; index < colorArray.length; index++) {
     fill(colorArray[index]);
     rect(rectArray[rectArray.length-1]+200, 250+50*index, 100, 30);
     fill(1);
@@ -149,7 +160,7 @@ function draw() {
   }
 
   // outer circle
-    let c1 = color('magenta');
+    let c1 = color('#008000');
     fill(c1);
     circle(circleArray[circleArray.length-1]+180,190,50);
 
@@ -157,7 +168,7 @@ function draw() {
     let c2 = color('white');
     fill(c2);
     circle(circleArray[circleArray.length-1]+180,190,25);
-  
+
     stroke(1);
     fill(1);
     line(circleArray[circleArray.length-1]+180, 170, circleArray[circleArray.length-1]+220, 170);
