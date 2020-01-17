@@ -1,0 +1,6 @@
+drug,crime,mental,unemployment,crime_mental,crime_unemployment,mental_unemployment,INTERSECTION,UNION,ALL_ADDICTS
+Marijuana,564,1420,803,246,98,140,46,3317,10897
+Hallucinogen,202,207,121,85,26,27,16,684,1604
+Cocaine,184,189,86,95,35,31,17,637,1459
+Meth,76,59,32,38,20,12,6,243,409
+Heroin,36,29,22,31,14,10,6,148,226
